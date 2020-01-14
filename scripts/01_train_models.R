@@ -2,6 +2,9 @@ library(OpenML)
 library(dplyr)
 library(mlr)
 library(mltools)
+library(h2o)
+
+h2o.init()
 
 set.seed(123)
 
@@ -120,7 +123,7 @@ for(i in 2:(nrow(tasks_oml100)-1)){
     y_train <- train[, task$input$target.features]
     lvl <- levels(y_test)[1]
     
-    new_result = data.frame(model = "gbm",
+    new_result = data.frame(model = "logreg",
                             split = split_fold,
                             auc_train = auc_roc(predictions_train, y_train == lvl),
                             auc_test = auc_roc(predictions_test, y_test == lvl))
@@ -189,4 +192,96 @@ for(i in 2:(nrow(tasks_oml100)-1)){
   
   
 }
+
+
+
+
+##### H2O  ##############
+
+tasks_oml100 <- listOMLTasks(tag="openml100", number.of.classes = 2, number.of.missing.values = 0)
+
+
+for(i in 3:5){
+  # i <- 2
+  
+  task_id <- tasks_oml100[i, "task.id"]
+  
+  task <- getOMLTask(task.id = task_id)
+  data_set <- task$input$data.set$data
+  data_splits <- task[["input"]][["estimation.procedure"]][["data.splits"]]
+  
+  
+  results <- data.frame(model = character(),
+                        split = numeric(),
+                        auc_train = numeric(),
+                        auc_test = numeric())
+  
+  for(split_fold in 1:10){
+    # split_fold <- 1
+    print(paste(i, split_fold))
+    
+    split_rows_test <- data_splits %>% filter(fold == split_fold & type == "TEST") %>% pull(rowid)
+    split_rows_train <- data_splits %>% filter(fold == split_fold & type == "TRAIN") %>% pull(rowid)
+    
+    test <- data_set[split_rows_test, ]
+    train <- data_set[split_rows_train, ]
+    
+    train_h2o <- as.h2o(train)
+    test_h2o <- as.h2o(test)
+    
+    y <- task$input$target.features
+    x <- setdiff(names(train_h2o), y)
+    
+    # For binary classification, response should be a factor
+    train_h2o[,y] <- as.factor(train_h2o[,y])
+    test_h2o[,y] <- as.factor(test_h2o[,y])
+    
+    aml <- h2o.automl(x = x, y = y,
+                      training_frame = train_h2o,
+                      max_models = 10000,
+                      max_runtime_secs = 1 * 60,
+                      seed = 1)
+    
+    # View the AutoML Leaderboard
+    lb <- aml@leaderboard
+    model <- aml@leader
+    
+    h2o.saveModel(aml@leader, path = paste0("./models/h2o_tsk", task_id, "_fold_", split_fold))
+    # model <- h2o.loadModel(".\\models\\StackedEnsemble_AllModels_AutoML_20190523_201951")
+    
+    pred_test <- as.data.frame(h2o.predict(model, test_h2o))
+    predictions_test <- pred_test[,3]
+    pred_train <- as.data.frame(h2o.predict(model, train_h2o))
+    predictions_train <- pred_train[,3]
+    
+    # How good is this model?
+    y_test <- test[, task$input$target.features]
+    y_train <- train[, task$input$target.features]
+    lvl <- levels(y_test)[1]
+    
+    new_result = data.frame(model = "h2o",
+                            split = split_fold,
+                            auc_train = auc_roc(predictions_train, y_train == lvl),
+                            auc_test = auc_roc(predictions_test, y_test == lvl))
+    results <- rbind(results, new_result)
+  }  
+  
+  write.csv(results, file = paste0("./auc_scores/h2o_tsk_", task_id, ".csv"))
+  
+  
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
