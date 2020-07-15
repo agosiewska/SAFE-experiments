@@ -2,9 +2,7 @@ library(OpenML)
 library(dplyr)
 library(mlr)
 library(mltools)
-library(h2o)
 
-h2o.init()
 
 set.seed(123)
 
@@ -82,7 +80,7 @@ for(i in 2:(nrow(tasks_oml100)-1)){
 
 tasks_oml100 <- listOMLTasks(tag="openml100", number.of.classes = 2, number.of.missing.values = 0)
 
-for(i in 2:(nrow(tasks_oml100)-1)){
+for(i in c(2:23, 26:29, 30:34)){
   # i <- 2
   
   task_id <- tasks_oml100[i, "task.id"]
@@ -139,7 +137,7 @@ for(i in 2:(nrow(tasks_oml100)-1)){
 
 tasks_oml100 <- listOMLTasks(tag="openml100", number.of.classes = 2, number.of.missing.values = 0)
 
-for(i in 2:(nrow(tasks_oml100)-1)){
+for(i in c(2:23, 26:29, 30:34))){
   # i <- 2
   
   task_id <- tasks_oml100[i, "task.id"]
@@ -198,14 +196,22 @@ for(i in 2:(nrow(tasks_oml100)-1)){
 
 
 
-
-##### H2O  ##############
+##### GBM Tuned ##############
 
 tasks_oml100 <- listOMLTasks(tag="openml100", number.of.classes = 2, number.of.missing.values = 0)
 
 
-for(i in 1:1){
-   i <- 2
+# skip 1st row due to split 8:
+# Error in `contrasts<-`(`*tmp*`, value = contr.funs[1 + isOF[nn]]) : 
+#   contrasts can be applied only to factors with 2 or more levels
+
+
+# skip 35th row due to:
+# Error in gbm.fit(x = x, y = y, offset = offset, distribution = distribution,  : 
+#                    gbm does not currently handle categorical variables with more than 1024 levels. Variable 1: RESOURCE has 7085 levels.
+
+
+for(i in c(2:23, 26:29, 30:34)){  
   
   task_id <- tasks_oml100[i, "task.id"]
   
@@ -229,51 +235,51 @@ for(i in 1:1){
     test <- data_set[split_rows_test, ]
     train <- data_set[split_rows_train, ]
     
-    train_h2o <- as.h2o(train)
-    test_h2o <- as.h2o(test)
+    lrn <- makeLearner("classif.gbm", predict.type = "prob", 
+                       par.vals = list(interaction.depth = 1))
+    tsk <- makeClassifTask(data = train, target = task$input$target.features)
     
-    y <- task$input$target.features
-    x <- setdiff(names(train_h2o), y)
+    ps = makeParamSet(
+      makeIntegerParam("n.trees", lower = 50, upper = 1000),
+      makeNumericParam("shrinkage", lower = 0.01, upper = 0.6),
+      makeNumericParam("bag.fraction", lower = 0.2, upper = 0.7)
+    )
+    ctrl = makeTuneControlRandom(maxit = 20L)
+    rdesc = makeResampleDesc("CV", iters = 3L)
+    set.seed(1)
+    res = tuneParams(lrn, task = tsk, resampling = rdesc,
+                     par.set = ps, control = ctrl, measures = auc, show.info = FALSE)
     
-    # For binary classification, response should be a factor
-    train_h2o[,y] <- as.factor(train_h2o[,y])
-    test_h2o[,y] <- as.factor(test_h2o[,y])
+    lrn = setHyperPars(makeLearner("classif.gbm", predict.type = "prob"), 
+                       n.trees = res$x$n.trees, 
+                       shrinkage = res$x$shrinkage,
+                       bag.fraction = res$x$bag.fraction)
     
-    aml <- h2o.automl(x = x, y = y,
-                      training_frame = train_h2o,
-                      max_models = 10000,
-                      max_runtime_secs = 1 * 60,
-                      seed = 1)
     
-    # View the AutoML Leaderboard
-    lb <- aml@leaderboard
-    model <- aml@leader
+    set.seed(1)
+    model <- train(learner=lrn, task=tsk)
     
-    h2o.saveModel(aml@leader, path = paste0("./models/h2o_tsk", task_id, "_fold_", split_fold))
-    # model <- h2o.loadModel(".\\models\\StackedEnsemble_AllModels_AutoML_20190523_201951")
+    save(model, file = paste0("./models/gbmtuned_tsk_", task_id, "_fold_", split_fold,".rda"))
     
-    pred_test <- as.data.frame(h2o.predict(model, test_h2o))
-    predictions_test <- pred_test[,3]
-    pred_train <- as.data.frame(h2o.predict(model, train_h2o))
-    predictions_train <- pred_train[,3]
+    predictions_train <-  getPredictionProbabilities(predict(model, newdata = train))
+    predictions_test <-  getPredictionProbabilities(predict(model, newdata = test))
     
     # How good is this model?
     y_test <- test[, task$input$target.features]
     y_train <- train[, task$input$target.features]
     lvl <- levels(y_test)[1]
     
-    new_result = data.frame(model = "h2o",
+    new_result = data.frame(model = "gbmtuned",
                             split = split_fold,
                             auc_train = auc_roc(predictions_train, y_train == lvl),
                             auc_test = auc_roc(predictions_test, y_test == lvl))
     results <- rbind(results, new_result)
   }  
   
-  write.csv(results, file = paste0("./auc_scores/h2o_tsk_", task_id, ".csv"))
+  write.csv(results, file = paste0("./auc_scores/gbmtuned_tsk_", task_id, ".csv"))
   
   
 }
-
 
 
 
