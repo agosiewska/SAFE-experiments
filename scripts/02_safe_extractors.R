@@ -66,12 +66,15 @@ tasks_oml100 <- listOMLTasks(tag="openml100", number.of.classes = 2, number.of.m
 
 # for(i in 2:(nrow(tasks_oml100)-1)){
   for(i in 3:6){
-  # i <- 3
+    # i <- 2
 
   task_id <- tasks_oml100[i, "task.id"]
   
   task <- getOMLTask(task.id = task_id)
   data_set <- task$input$data.set$data
+  for(a in colnames(data_set)){
+    if(class(data_set[,a]) == "factor") data_set[,a] <- droplevels(data_set[,a])
+  }
   data_splits <- task[["input"]][["estimation.procedure"]][["data.splits"]]
   
   for(split_fold in 1:10){

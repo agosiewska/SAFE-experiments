@@ -97,6 +97,9 @@ for(i in 2:(nrow(tasks_oml100)-1)){
   
   task <- getOMLTask(task.id = task_id)
   data_set <- task$input$data.set$data
+  for(a in colnames(data_set)){
+    if(class(data_set[,a]) == "factor") data_set[,a] <- droplevels(data_set[,a])
+  }
   data_splits <- task[["input"]][["estimation.procedure"]][["data.splits"]]
   
   

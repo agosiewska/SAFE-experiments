@@ -24,7 +24,7 @@ tasks_oml100 <- listOMLTasks(tag="openml100", number.of.classes = 2, number.of.m
 
 
 for(i in 2:(nrow(tasks_oml100)-1)){
-  # i <- 2
+  # i <- 3
 
   task_id <- tasks_oml100[i, "task.id"]
   
@@ -52,10 +52,10 @@ for(i in 2:(nrow(tasks_oml100)-1)){
                        par.vals = list(interaction.depth = 1))
     
     tsk <- makeClassifTask(data = train, target = task$input$target.features)
-    
+    set.seed(1)
     model <- train(learner=lrn, task=tsk)
     
-    save(model, file = paste0("./models/gbm_tsk_", task_id, "_fold_", split_fold,".rda"))
+    # save(model, file = paste0("./models/gbm_tsk_", task_id, "_fold_", split_fold,".rda"))
     
     predictions_train <-  getPredictionProbabilities(predict(model, newdata = train))
     predictions_test <-  getPredictionProbabilities(predict(model, newdata = test))
@@ -122,7 +122,7 @@ for(i in 2:(nrow(tasks_oml100)-1)){
     y_test <- test[, task$input$target.features]
     y_train <- train[, task$input$target.features]
     lvl <- levels(y_test)[1]
-    
+
     new_result = data.frame(model = "logreg",
                             split = split_fold,
                             auc_train = auc_roc(predictions_train, y_train == lvl),
@@ -146,6 +146,9 @@ for(i in 2:(nrow(tasks_oml100)-1)){
   
   task <- getOMLTask(task.id = task_id)
   data_set <- task$input$data.set$data
+  for(a in colnames(data_set)){
+    if(class(data_set[,a]) == "factor") data_set[,a] <- droplevels(data_set[,a])
+  }
   data_splits <- task[["input"]][["estimation.procedure"]][["data.splits"]]
   
   
@@ -201,8 +204,8 @@ for(i in 2:(nrow(tasks_oml100)-1)){
 tasks_oml100 <- listOMLTasks(tag="openml100", number.of.classes = 2, number.of.missing.values = 0)
 
 
-for(i in 3:5){
-  # i <- 2
+for(i in 1:1){
+   i <- 2
   
   task_id <- tasks_oml100[i, "task.id"]
   

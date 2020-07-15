@@ -1,0 +1,11 @@
+"","model","split","auc_train","auc_test"
+"1","safe_logreg_gbmtuned",1,0.77448,0.776147959183674
+"2","safe_logreg_gbmtuned",2,0.7794,0.730867346938776
+"3","safe_logreg_gbmtuned",3,0.799792,0.627551020408163
+"4","safe_logreg_gbmtuned",4,0.784544,0.625
+"5","safe_logreg_gbmtuned",5,0.77888,0.746173469387755
+"6","safe_logreg_gbmtuned",6,0.777128,0.705994897959184
+"7","safe_logreg_gbmtuned",7,0.77992828685259,0.731481481481482
+"8","safe_logreg_gbmtuned",8,0.785003984063745,0.753306878306878
+"9","safe_logreg_gbmtuned",9,0.740988047808765,0.82473544973545
+"10","safe_logreg_gbmtuned",10,0.755378486055777,0.727513227513228
