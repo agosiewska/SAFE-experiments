@@ -6,8 +6,6 @@ R scritps to reproduce benchmark results
 
 - Folder `params_count` - number of parametrs for gbm, logistic regression and svm models.
 
-- A file `plots/triangle_plots.R` - script with triangle plot (Figure 4)
-
 - `scripts/01_train_models.R` - model training (gbm, tuned gbm, logistic regression, svm).
 - `scripts/02_count_model_params.R` - counting number of models' parameters.       
 - `scripts/03_safe_extractors.R` - extract safe transformations from gbm, tuned gbm, and svm.
@@ -16,3 +14,4 @@ R scritps to reproduce benchmark results
 - `scripts/06_filter_param_counts.R`- matching computed models and save results.        
 - `scripts/07_result_plots.R` - plot AUC vs interpretabbulity plot (Figure 5).             
 - `scripts/08_generate_tables_for_article.R` - generate tables included in the article
+- `scripts/09_triangle_plots.R` - script with triangle plot (Figure 4)
