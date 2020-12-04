@@ -1,7 +1,4 @@
----
-title: 'Simpler is Better: Lifting Interpretability-Performance Trade-off via Automated Feature Engineering'
-output: html_document
----
+## Simpler is Better: Lifting Interpretability-Performance Trade-off via Automated Feature Engineering
 
 This repository is a landing page for  the article: [Alicja Gosiewska](https://www.linkedin.com/in/alicja-gosiewska/), [Anna Kozak](https://www.linkedin.com/in/anna-kozak-a45687116/), and [Przemysław Biecek](https://www.linkedin.com/in/pbiecek/). *Simpler is Better: Lifting Interpretability-Performance Trade-off via Automated Feature Engineering*. 
 
@@ -10,7 +7,7 @@ This repository is a landing page for  the article: [Alicja Gosiewska](https://w
 
 *Machine learning is proved in many areas to generate useful predictive models that can and should support decision-makers. The availability of tools for AutoML makes it possible to quickly create an effective but complex predictive model. However, the complexity of the models is often a major obstacle in applications, especially for high-stake decisions. We are experiencing a growing number of examples where the use of black boxes leads to decisions that are harmful, unfair, or simply wrong. In this paper, we show that very often we can simplify complex models without compromising their performance. However, with the benefit of much needed transparency.*
 
-*We propose a~method that uses elastic black-boxes as surrogate models to create simpler, less opaque, yet still accurate and interpretable glass-box models. New models are created using newly engineered features extracted with the help of a~surrogate model. We supply the analysis by a~large-scale benchmark on several tabular data sets from the OpenML database. There are two results 1)~we show that extracting information from complex models may improve the performance of simpler models, 2)~we question a common myth that complex predictive models outperform simpler predictive models, 3)~we present a real-life application of the proposed method.*
+*We propose a method that uses elastic black-boxes as surrogate models to create simpler, less opaque, yet still accurate and interpretable glass-box models. New models are created using newly engineered features extracted with the help of a surrogate model. We supply the analysis by a large-scale benchmark on several tabular data sets from the OpenML database. There are two results 1) we show that extracting information from complex models may improve the performance of simpler models, 2) we question a common myth that complex predictive models outperform simpler predictive models, 3) we present a real-life application of the proposed method.*
 
 # Proposed method
 
