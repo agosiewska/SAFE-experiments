@@ -11,7 +11,7 @@ This repository is a landing page for  the article: [Alicja Gosiewska](https://w
 
 # Proposed method
 
-An important part of our article is  six-step SAFE ML framework. The framework is a fully automatic process starting from raw data and ending151with an interpretable model. The main idea is to use complex models to produce152new features that are later used to fit interpretable model. The SAFE feature153engineering method is flexible and model agnostic, any class of models may be154used as a surrogate model and as a glass-box model. Therefore, a surrogate155model may be selected to fit the data as best as possible, while glass-box model156one can be selected according to the particular task or abilities of the end-users157to interpreting models. 
+An important part of our article is  six-step SAFE ML framework. The framework is a fully automatic process starting from raw data and ending with an interpretable model. The main idea is to use complex models to produce new features that are later used to fit interpretable model. The SAFE feature engineering method is flexible and model agnostic, any class of models may be used as a surrogate model and as a glass-box model. Therefore, a surrogate model may be selected to fit the data as best as possible, while glass-box model one can be selected according to the particular task or abilities of the end-users157to interpreting models. 
 
 <img src="figures/SAFE-diagram.png" width=800>
 
