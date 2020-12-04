@@ -137,7 +137,7 @@ for(i in c(2:23, 26:29, 30:34)){
 
 tasks_oml100 <- listOMLTasks(tag="openml100", number.of.classes = 2, number.of.missing.values = 0)
 
-for(i in c(2:23, 26:29, 30:34))){
+for(i in c(2:23, 26:29, 30:34)){
   # i <- 2
   
   task_id <- tasks_oml100[i, "task.id"]
