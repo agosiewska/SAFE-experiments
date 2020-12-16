@@ -5,11 +5,11 @@ library(OpenML)
 library(tidyr)
 library(kableExtra)
 
-param_count_blackbox <- read_csv("params_count/param_count_blackbox.csv")
+param_count_blackbox <- read_csv("benchmark/params_count/param_count_blackbox.csv")
 
-param_count_logreg <- read_csv("params_count/param_count_logreg.csv")
+param_count_logreg <- read_csv("benchmark/params_count/param_count_logreg.csv")
 
-param_count_safe <- read_csv("params_count/param_count_safe.csv")
+param_count_safe <- read_csv("benchmark/params_count/param_count_safe.csv")
 
 tasks_oml100 <- listOMLTasks(tag="openml100", number.of.classes = 2, number.of.missing.values = 0)
 
