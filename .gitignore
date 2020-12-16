@@ -3,4 +3,4 @@
 .RData
 .Ruserdata
 safely_transformed_data
-models
+/models/
