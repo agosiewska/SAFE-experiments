@@ -1,5 +1,8 @@
 #### GLM ####
 
+load("./use-case/data/train.rda")
+load("./use-case/data/test.rda")
+
 model_glm <- glm(class == "bad" ~ ., data = train, family = "binomial")
 summary(model_glm)
 

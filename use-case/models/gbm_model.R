@@ -2,6 +2,9 @@ library(mlr)
 library(gbm)
 library(DALEX)
 library(DALEXtra)
+load("./use-case/data/train.rda")
+load("./use-case/data/test.rda")
+
 set.seed(1993)
 
 train$class <- factor(train$class, levels = c("bad", "good"))

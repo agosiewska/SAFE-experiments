@@ -1,3 +1,13 @@
+library(rSAFE)
+library(mlr)
+library(gbm)
+library(DALEX)
+library(DALEXtra)
+
+load("./use-case/data/train.rda")
+load("./use-case/data/test.rda")
+load("./use-case/models/safe_extractor_gbm_german_credit_split4.rda")
+
 train_trans <- safely_transform_data(safe_extractor_gbm, train[,-21])
 train_trans[["class"]] <- train[,21] == "bad"
 
@@ -34,4 +44,6 @@ pred_lm_new <- predict(model_lm_new, newdata = test_trans_new, type = "resp")
 mltools::auc_roc(pred_lm_new2, train$class == "bad")
 # 0.8214286
 mltools::auc_roc(pred_lm_new, test$class == "bad")
+
+
 
