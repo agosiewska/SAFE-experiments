@@ -14,6 +14,7 @@ param <- data.frame(model = factor(c("vanilla logistic regression",
                     auc_train = c(0.8362, 0.8976, 0.8449, 0.8214),
                     n_params = c(49, 171616, 73, 25))
 
+## value of auc_test and auc_train are come from model scripts
 
 ## data for arrows
 {curve_data <- data.frame(param[2:3,])

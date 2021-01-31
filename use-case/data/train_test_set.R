@@ -11,5 +11,5 @@ train <- data_set[split_rows_train, ]
 head(test)
 
 
-# save(train, file = "data/train.csv")
-# save(test, file = "data/test.csv")
+# save(train, file = "data/train.rda")
+# save(test, file = "data/test.rda")

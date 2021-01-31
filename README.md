@@ -1,6 +1,4 @@
-## Simpler is Better: Lifting Interpretability-Performance Trade-off via Automated Feature Engineering
-
-This repository is a landing page for  the article: [Alicja Gosiewska](https://www.linkedin.com/in/alicja-gosiewska/), [Anna Kozak](https://www.linkedin.com/in/anna-kozak-a45687116/), and [Przemysław Biecek](https://www.linkedin.com/in/pbiecek/). *Simpler is Better: Lifting Interpretability-Performance Trade-off via Automated Feature Engineering*. 
+This repository is a landing page for  the article: [Alicja Gosiewska](https://www.linkedin.com/in/alicja-gosiewska/), [Anna Kozak](https://www.linkedin.com/in/kozakanna/), and [Przemysław Biecek](https://www.linkedin.com/in/pbiecek/). *Simpler is Better: Lifting Interpretability-Performance Trade-off via Automated Feature Engineering*. 
 
 
 # Abstract 
@@ -11,10 +9,17 @@ This repository is a landing page for  the article: [Alicja Gosiewska](https://w
 
 # Proposed method
 
-An important part of our article is  six-step SAFE ML framework. The framework is a fully automatic process starting from raw data and ending with an interpretable model. The main idea is to use complex models to produce new features that are later used to fit interpretable model. The SAFE feature engineering method is flexible and model agnostic, any class of models may be used as a surrogate model and as a glass-box model. Therefore, a surrogate model may be selected to fit the data as best as possible, while glass-box model one can be selected according to the particular task or abilities of the end-users157to interpreting models. 
+An important part of our article is  six-step SAFE ML framework. The framework is a fully automatic process starting from raw data and ending with an interpretable model. The main idea is to use complex models to produce new features that are later used to fit interpretable model. The SAFE feature engineering method is flexible and model agnostic, any class of models may be used as a surrogate model and as a glass-box model. Therefore, a surrogate model may be selected to fit the data as best as possible, while glass-box model one can be selected according to the particular task or abilities of the end-users to interpreting models. 
 
-<img src="figures/SAFE-diagram.png" width=800>
+<img src="figures/SAFE-diagram.png" class="center">
 
+# Use case
+
+[Link to code](https://github.com/agosiewska/SAFE-experiments/tree/master/use-case)
+
+# Benchmark
+
+[Link to code](https://github.com/agosiewska/SAFE-experiments/tree/master/benchmark)
 
 
 # Preprint
@@ -23,4 +28,13 @@ Preprint for this work is avaliable at https://arxiv.org/abs/2002.04267.
 
 In order to cite our work please use the following BiBTeX entry
 
-TBD
+
+```
+@article{safe,
+Author = {Alicja Gosiewska and Przemyslaw Biecek},
+Title = {Lifting Interpretability-Performance Trade-off via Automated Feature Engineering},
+Year = {2020},
+Eprint = {arXiv:2002.04267},
+URL={https://arxiv.org/abs/2002.04267}
+}
+```

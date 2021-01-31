@@ -1,3 +1,6 @@
+#### gbm ####
+
+
 library(mlr)
 library(gbm)
 library(DALEX)
@@ -42,4 +45,4 @@ mltools::auc_roc(pred_train$data$prob.good, train$class == "good")
 # How good is this model?
 #0.7961905
 mltools::auc_roc(pred_test$data$prob.good, test$class == "good")
-#save(mod_gbm, file = "models/mod_gbm_credit.rda")
+#save(mod_gbm, file = "models/outputs/gbm_model.rda")

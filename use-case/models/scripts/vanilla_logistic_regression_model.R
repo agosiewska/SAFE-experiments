@@ -1,4 +1,4 @@
-#### GLM ####
+#### vanilla logistic regression ####
 
 load("./use-case/data/train.rda")
 load("./use-case/data/test.rda")
@@ -14,4 +14,4 @@ mltools::auc_roc(pred_train, train$class == "bad")
 #0.7785714
 mltools::auc_roc(pred_test, test$class == "bad")
 
-#save(model_glm, file = "models/glm.rda")
+#save(model_glm, file = "models/outputs/vanilla_logistic_regression_model.rda")
